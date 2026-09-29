@@ -186,6 +186,69 @@ void LoadStation(Station& s) {
     file >> s.working;
     file >> s.classNum;
     file.close();
-    hasStation = true;
+    flagStation = true;
     cout << "КС загружена из station.txt";
+}
+
+int main()
+{
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+    int choice = -1;
+    while (choice != 0) {
+        cout << "\n1-добавить трубу\n";
+        cout << "2-добавить КС\n";
+        cout << "3-показать всё\n";
+        cout << "4-редактировать трубу\n";
+        cout << "5-редактировать КС\n";
+        cout << "6-сохранить всё\n";
+        cout << "7-загрузить всё\n";
+        cout << "0-выход\n";
+        cout << "Выбор: ";
+        choice = getInt();
+
+        switch (choice) {
+        case 1:
+            NewPipe(myPipe);
+            flagPipe = true;
+            cout << "Труба добавлена!\n";
+            break;
+        case 2:
+            NewStation(myStation);
+            flagStation = true;
+            cout << "КС добавлена!\n";
+            break;
+        case 3:
+            if (flagPipe) PrintPipe(myPipe);
+            if (flagStation) PrintStation(myStation);
+            if (!flagPipe && !flagStation) cout << "Пока ничего нет\n";
+            break;
+        case 4:
+            if (flagPipe) EditPipe(myPipe);
+            else cout << "Сначала добавьте трубу\n";
+            break;
+        case 5:
+            if (flagStation) EditStation(myStation);
+            else cout << "Сначала добавьте КС\n";
+            break;
+        case 6:
+            if (flagPipe) SavePipe(myPipe);
+            if (flagStation) SaveStation(myStation);
+            break;
+        case 7:
+            LoadPipe(myPipe);
+            flagPipe = true;
+            LoadStation(myStation);
+            flagStation = true;
+            break;
+        case 0:
+            cout << "Пока пока!\n";
+            break;
+        default:
+            cout << "Неверный выбор\n";
+            break;
+
+        }
+    }
+    return 0;
 }
