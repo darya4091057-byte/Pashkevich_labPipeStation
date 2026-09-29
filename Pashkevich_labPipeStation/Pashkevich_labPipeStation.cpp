@@ -133,3 +133,59 @@ void LoadPipe(Pipe& p) {
     file.close();
     cout << "Труба загружена из pipe.txt\n";
 }
+
+void NewStation(Station& s)
+{
+    cout << "Название: ";
+    cin >> s.name;
+    cout << "Всего цехов: ";
+    s.total = getInt();
+    cout << "Цехов в работе: ";
+    s.working = getInt();
+    cout << "Класс станции: ";
+    s.classNum = getInt();
+}
+
+void PrintStation(const Station& s)
+{
+    cout << "КС: " << s.name << ", цехов " << s.total << ", работают " << s.working << ", класс " << s.classNum << "\n";
+
+}
+
+void EditStation(Station& s)
+{
+    cout << "1-запустить цех: " << "2-остановить цех: ";
+    int c = getInt();
+    if (c == 1 && s.working < s.total) s.working++;
+    if (c == 2 && s.working > 0) s.working--;
+    cout << "В работе: " << s.working << " из " << s.total << "\n";
+}
+
+void SaveStation(const Station& s) {
+    ofstream file("station.txt");
+    if (!file.is_open()) {
+        cout << "Ошибка: не могу открыть файл\n";
+        return;
+    }
+    file << s.name << "\n";
+    file << s.total << "\n";
+    file << s.working << "\n";
+    file << s.classNum << "\n";
+    file.close();
+    cout << "КС сохранена в файл station.txt\n";
+}
+
+void LoadStation(Station& s) {
+    ifstream file("station.txt");
+    if (!file.is_open()) {
+        cout << "Ошибка: файл station.txt не найден\n";
+        return;
+    }
+    getline(file, s.name);
+    file >> s.total;
+    file >> s.working;
+    file >> s.classNum;
+    file.close();
+    hasStation = true;
+    cout << "КС загружена из station.txt";
+}
