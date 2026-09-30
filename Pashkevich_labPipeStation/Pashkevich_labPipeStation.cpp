@@ -237,9 +237,7 @@ int main()
             break;
         case 7:
             LoadPipe(myPipe);
-            flagPipe = true;
             LoadStation(myStation);
-            flagStation = true;
             break;
         case 0:
             cout << "Пока пока!\n";
