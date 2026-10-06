@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="Pashkevich_labPipeStation/Pashkevich_labPipeStation.vcxproj" />
+  <Project Path="Pashkevich_labPipeStation/Pashkevich_labPipeStation.vcxproj" Id="e7b7e97e-db81-4e37-a928-445be614eb2b" />
 </Solution>
