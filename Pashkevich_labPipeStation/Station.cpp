@@ -26,10 +26,10 @@ void Station::read() {
 
 void Station::print() const {
     cout << "[" << id << "] " << name
-        << " | цехов " << total
-        << " | работают " << working
-        << " | класс " << classNum
-        << " | незадействовано " << getLoad() << "%\n";
+        << " цехов " << total
+        << " работают " << working
+        << " класс " << classNum
+        << " незадействовано " << getLoad() << "%\n";
 }
 
 ostream& operator<<(ostream& os, const Station& s) {

@@ -29,10 +29,10 @@ void Pipe::read() {
 
 void Pipe::print() const {
     cout << "[" << id << "] " << name
-        << " | D=" << diameter
-        << " | L=" << length
-        << " | T=" << thickness
-        << " | " << (repair ? "в ремонте" : "рабочая") << "\n";
+        << " d=" << diameter
+        << " l=" << length
+        << " t=" << thickness
+        << " " << (repair ? "в ремонте" : "рабочая") << "\n";
 }
 
 ostream& operator<<(ostream& os, const Pipe& p) {
