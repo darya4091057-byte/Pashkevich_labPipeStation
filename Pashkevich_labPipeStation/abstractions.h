@@ -33,3 +33,4 @@ T GetCorrectNumber(T min, T max)
 	cin.ignore(10000, '\n');
 	return x;
 }
+#define INPUT_LINE(in, str) getline(in>>std::ws, str); std::cerr << str << std::endl

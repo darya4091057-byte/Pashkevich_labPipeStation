@@ -1,54 +1,51 @@
 #include "Pipe.h"
-#include "Input.h"
-#include <iostream>
+#include "abstractions.h"
 using namespace std;
 
-void NewPipe(Pipe& p)
-{
+int Pipe::nextId = 1;
+
+Pipe::Pipe() {
+    id = nextId++;
+    diameter = 0;
+    length = 0;
+    thickness = 0;
+    repair = false;
+}
+
+void Pipe::read() {
     cout << "Название: ";
-    getline(cin >> ws, p.name);
-    cout << "Диаметр: ";
-    p.diameter = getInt();
-    cout << "Длина: ";
-    p.lenght = getDouble();
-    cout << "Толщина: ";
-    p.thickness = getDouble();
-    cout << "Труба в ремонте? (0 - нет, 1 - да): ";
-    p.repair = getInt();
+    INPUT_LINE(cin, name);
+    cout << "Диаметр (мм): ";
+    diameter = GetCorrectNumber<int>(1, 10000);
+    cout << "Длина (км): ";
+    length = GetCorrectNumber<double>(0.1, 10000);
+    cout << "Толщина (мм): ";
+    thickness = GetCorrectNumber<double>(0.1, 1000);
+    cout << "В ремонте? (0-нет, 1-да): ";
+    repair = GetCorrectNumber<int>(0, 1);
+
+    cerr << "Создана труба #" << id << "\n";
 }
 
-void PrintPipe(const Pipe& p)
-{
-    cout << "Труба: " << p.name << ", " << p.diameter << " мм, "
-        << p.lenght << " км, " << p.thickness << " мм "
-        << (p.repair ? "в ремонте" : "не в ремонте") << "\n";
+void Pipe::print() const {
+    cout << "[" << id << "] " << name
+        << " | D=" << diameter
+        << " | L=" << length
+        << " | T=" << thickness
+        << " | " << (repair ? "в ремонте" : "рабочая") << "\n";
 }
 
-void EditPipe(Pipe& p)
-{
-    p.repair = !p.repair;
-    cout << "Труба теперь: " << (p.repair ? "в ремонте" : "не в ремонте") << "\n";
+ostream& operator<<(ostream& os, const Pipe& p) {
+    os << p.id << "\n" << p.name << "\n" << p.diameter << "\n"
+        << p.length << "\n" << p.thickness << "\n" << p.repair << "\n";
+    return os;
 }
 
-void SavePipe(ofstream& file, const Pipe& p)
-{
-    file << p.name << "\n";
-    file << p.diameter << "\n";
-    file << p.lenght << "\n";
-    file << p.thickness << "\n";
-    if (p.repair) file << "в ремонте\n";
-    else file << "не в ремонте\n";
-}
-
-void LoadPipe(ifstream& file, Pipe& p)
-{
-    getline(file, p.name);
-    file >> p.diameter;
-    file >> p.lenght;
-    file >> p.thickness;
-    file.ignore();
-    string status;
-    getline(file, status);
-    if (status == "в ремонте") p.repair = true;
-    else p.repair = false;
+istream& operator>>(istream& is, Pipe& p) {
+    is >> p.id;
+    is.ignore();
+    getline(is, p.name);
+    is >> p.diameter >> p.length >> p.thickness >> p.repair;
+    if (p.id >= Pipe::nextId) Pipe::nextId = p.id + 1;
+    return is;
 }

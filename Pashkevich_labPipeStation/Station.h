@@ -1,17 +1,34 @@
 #pragma once
 #include <string>
-#include <fstream>
-using namespace std;
+#include <iostream>
 
-struct Station {
-    string name;
+class Station {
+private:
+    static int nextId;
+    int id;
+    std::string name;
     int total;
     int working;
     int classNum;
-};
 
-void NewStation(Station& s);
-void PrintStation(const Station& s);
-void EditStation(Station& s);
-void SaveStation(ofstream& file, const Station& s);
-void LoadStation(ifstream& file, Station& s);
+public:
+    Station();
+
+    int getId() const { return id; }
+    std::string getName() const { return name; }
+    int getTotal() const { return total; }
+    int getWorking() const { return working; }
+
+    void setWorking(int w) { working = w; }
+
+    double getLoad() const {
+        if (total == 0) return 0;
+        return ((double)(total - working) / total) * 100.0;
+    }
+
+    void read();
+    void print() const;
+
+    friend std::ostream& operator<<(std::ostream& os, const Station& s);
+    friend std::istream& operator>>(std::istream& is, Station& s);
+};

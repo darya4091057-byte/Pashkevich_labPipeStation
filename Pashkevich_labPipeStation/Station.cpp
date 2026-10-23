@@ -1,49 +1,48 @@
 #include "Station.h"
-#include "Input.h"
-#include <iostream>
+#include "abstractions.h"
 using namespace std;
 
-void NewStation(Station& s)
-{
+int Station::nextId = 1;
+
+Station::Station() {
+    id = nextId++;
+    total = 0;
+    working = 0;
+    classNum = 0;
+}
+
+void Station::read() {
     cout << "Название: ";
-    getline(cin >> ws, s.name);
+    INPUT_LINE(cin, name);
     cout << "Всего цехов: ";
-    s.total = getInt();
-    cout << "Цехов в работе: ";
-    s.working = getInt();
-    cout << "Класс станции: ";
-    s.classNum = getInt();
+    total = GetCorrectNumber<int>(1, 100);
+    cout << "Работают: ";
+    working = GetCorrectNumber<int>(0, total);
+    cout << "Класс: ";
+    classNum = GetCorrectNumber<int>(1, 10);
+
+    cerr << "Создана КС #" << id << "\n";
 }
 
-void PrintStation(const Station& s)
-{
-    cout << "КС: " << s.name << ", цехов " << s.total
-        << ", работают " << s.working
-        << ", класс " << s.classNum << "\n";
+void Station::print() const {
+    cout << "[" << id << "] " << name
+        << " | цехов " << total
+        << " | работают " << working
+        << " | класс " << classNum
+        << " | незадействовано " << getLoad() << "%\n";
 }
 
-void EditStation(Station& s)
-{
-    cout << "1-запустить цех: 2-остановить цех: ";
-    int c = getInt();
-    if (c == 1 && s.working < s.total) s.working++;
-    if (c == 2 && s.working > 0) s.working--;
-    cout << "В работе: " << s.working << " из " << s.total << "\n";
+ostream& operator<<(ostream& os, const Station& s) {
+    os << s.id << "\n" << s.name << "\n" << s.total << "\n"
+        << s.working << "\n" << s.classNum << "\n";
+    return os;
 }
 
-void SaveStation(ofstream& file, const Station& s)
-{
-    file << s.name << "\n";
-    file << s.total << "\n";
-    file << s.working << "\n";
-    file << s.classNum << "\n";
-}
-
-void LoadStation(ifstream& file, Station& s)
-{
-    getline(file, s.name);
-    file >> s.total;
-    file >> s.working;
-    file >> s.classNum;
-    file.ignore();
+istream& operator>>(istream& is, Station& s) {
+    is >> s.id;
+    is.ignore();
+    getline(is, s.name);
+    is >> s.total >> s.working >> s.classNum;
+    if (s.id >= Station::nextId) Station::nextId = s.id + 1;
+    return is;
 }

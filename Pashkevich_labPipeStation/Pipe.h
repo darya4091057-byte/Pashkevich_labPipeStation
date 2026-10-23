@@ -1,18 +1,29 @@
 #pragma once
 #include <string>
-#include <fstream>
-using namespace std;
+#include <iostream>
 
 class Pipe {
-    string name;
+private:
+    static int nextId;
+    int id;
+    std::string name;
     int diameter;
-    double lenght;
+    double length;
     double thickness;
     bool repair;
-};
 
-void NewPipe(Pipe& p);
-void PrintPipe(const Pipe& p);
-void EditPipe(Pipe& p);
-void SavePipe(ofstream& file, const Pipe& p);
-void LoadPipe(ifstream& file, Pipe& p);
+public:
+    Pipe();
+
+    int getId() const { return id; }
+    std::string getName() const { return name; }
+    bool isRepair() const { return repair; }
+
+    void setRepair(bool r) { repair = r; }
+
+    void read();
+    void print() const;
+
+    friend std::ostream& operator<<(std::ostream& os, const Pipe& p);
+    friend std::istream& operator>>(std::istream& is, Pipe& p);
+};
