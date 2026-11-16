@@ -1,0 +1,10 @@
+pipe1
+Создана труба с id1
+pipe2
+Создана труба с id2
+pipe3
+Создана труба с id3
+pipe4
+Создана труба с id4
+ppiippee
+ppiippee

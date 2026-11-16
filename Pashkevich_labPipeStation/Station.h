@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include <vector>
+#include <unordered_map>
 
 class Station {
 private:
@@ -32,3 +34,10 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Station& s);
     friend std::istream& operator>>(std::istream& is, Station& s);
 };
+
+void addStation(std::unordered_map<int, Station>& stations);
+void editStation(std::unordered_map<int, Station>& stations);
+void deleteStation(std::unordered_map<int, Station>& stations);
+void searchStations(const std::unordered_map<int, Station>& stations);
+bool filterCSName(const Station& s, std::string name);
+bool filterCSPercent(const Station& s, double maxLoad);

@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include <unordered_map>
 
 class Pipe {
 private:
@@ -9,7 +10,6 @@ private:
     std::string name;
     int diameter;
     double length;
-    double thickness;
     bool repair;
 
 public:
@@ -27,3 +27,11 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Pipe& p);
     friend std::istream& operator>>(std::istream& is, Pipe& p);
 };
+
+void addPipe(std::unordered_map<int, Pipe>& pipes);
+void editPipe(std::unordered_map<int, Pipe>& pipes);
+void deletePipe(std::unordered_map<int, Pipe>& pipes);
+void searchPipes(const std::unordered_map<int, Pipe>& pipes);
+bool filterPipeName(const Pipe& p, std::string name);
+bool filterPipeRepair(const Pipe& p, bool inRepair);
+void batchEditPipes(std::unordered_map<int, Pipe>& pipes);
