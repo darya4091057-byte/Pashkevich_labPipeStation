@@ -49,6 +49,7 @@ T GetCorrectNumber(T min, T max)
 		std::cout << "Ошибка! Введите число от " << min << " до " << max << ": ";
 	}
 	std::cin.ignore(10000, '\n');
+	std::cerr << x << std::endl;
 	return x;
 }
 #define INPUT_LINE(in, str) getline(in>>std::ws, str); std::cerr << str << std::endl

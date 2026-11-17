@@ -56,7 +56,8 @@ int main() {
 
     redirect_output_wrapper cerr_wrapper(cerr);
     ofstream logfile("log.txt");
-    if (logfile) cerr_wrapper.redirect(logfile);
+    if (logfile) 
+        cerr_wrapper.redirect(logfile);
 
     unordered_map<int, Pipe> pipes;
     unordered_map<int, Station> stations;
