@@ -94,10 +94,10 @@ int main() {
             network.editStation();
             break;
         case 6: 
-            deletePipe(pipes);
+            network.deletePipe();
             break;
         case 7: 
-            deleteStation(stations);
+            network.deleteStation();
             break;
         case 8: 
             network.searchPipes();
