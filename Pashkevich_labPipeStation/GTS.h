@@ -25,4 +25,6 @@ public:
 	void batchEditPipes();
 	void deletePipe();
 	void deleteStation();
+	void saveToFile() const;
+	void loadFromFile();
 };

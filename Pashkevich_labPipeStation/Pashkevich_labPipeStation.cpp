@@ -11,13 +11,6 @@
 #include "GTS.h"
 using namespace std;
 
-void showAll(const unordered_map<int, Pipe>& pipes, const unordered_map<int, Station>& stations) {
-    for (const auto& [id, p] : pipes)
-        p.print();
-    for (const auto& [id, s] : stations)
-        s.print();
-}
-
 void saveToFile(const unordered_map<int, Pipe>& pipes, const unordered_map<int, Station>& stations) {
     string filename;
     cout << "Имя файла: ";
@@ -109,10 +102,10 @@ int main() {
             network.batchEditPipes();
             break;
         case 11: 
-            saveToFile(pipes, stations);
+            network.saveToFile();
             break;
         case 12: 
-            loadFromFile(pipes, stations);
+            network.loadFromFile();
             break;
         case 0: 
             cout << "Выход\n";

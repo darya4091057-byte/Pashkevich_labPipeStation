@@ -42,9 +42,9 @@ ofstream& operator<<(ofstream& os, const Station& s)
 
 ifstream& operator>>(ifstream& is, Station& s) {
     is >> s.id;
-    is >> ws;
+    getline(is >> ws, s.name);
     is >> s.total >> s.working >> s.classNum;
-    if (s.id >= Station::nextId) Station::nextId = s.id + 1;
+    if (is && s.id >= Station::nextId) Station::nextId = s.id + 1;
     return is;
 }
 
