@@ -213,3 +213,20 @@ void GTS::ShowConnections() const {
 		cout << "Труба ID " << pipeId << ": КС " << link.fromStationId << " -> КС " << link.toStationId << "\n";
 	}
 }
+
+void GTS::disconnectPipe() {
+	cout << "ID трубы для отключения: ";
+	int pipeId = GetCorrectNumber<int>(1, 10000);
+
+	if (pipes.count(pipeId) == 0) {
+		cout << "Труба не найдена\n";
+		return;
+	}
+
+	if (links.erase(pipeId)) {
+		cout << "Труба отключена\n";
+	}
+	else {
+		cout << "Труба уже свободна\n";
+	}
+}

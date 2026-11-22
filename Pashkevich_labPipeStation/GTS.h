@@ -33,4 +33,5 @@ public:
 	void loadFromFile();
 	void connectStations();
 	void ShowConnections() const;
+	void disconnectPipe();
 };

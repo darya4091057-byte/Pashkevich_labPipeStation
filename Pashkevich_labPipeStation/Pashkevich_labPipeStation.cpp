@@ -71,9 +71,10 @@ int main() {
         cout << "12-загрузить из файла\n";
         cout << "13-соединить КС\n";
         cout << "14-Показать соединения\n";
+        cout << "15-отключить трубу\n";
         cout << "0-выход\n";
         cout << "Выбор: ";
-        choice = GetCorrectNumber<int>(0, 14);
+        choice = GetCorrectNumber<int>(0, 15);
 
         switch (choice) {
         case 1: 
@@ -117,6 +118,9 @@ int main() {
             break;
         case 14:
             network.ShowConnections();
+            break;
+        case 15:
+            network.disconnectPipe();
             break;
         case 0: 
             cout << "Выход\n";
