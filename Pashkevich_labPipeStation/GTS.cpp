@@ -202,3 +202,14 @@ int GTS::createPipeForConnection(int diameter) {
 		return id;
 	}
 }
+
+void GTS::ShowConnections() const {
+	if (links.empty()) {
+		cout << "Соединений нет\n";
+		return;
+	}
+
+	for (const auto& [pipeId, link] : links) {
+		cout << "Труба ID " << pipeId << ": КС " << link.fromStationId << " -> КС " << link.toStationId << "\n";
+	}
+}

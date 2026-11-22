@@ -32,4 +32,5 @@ public:
 	void saveToFile() const;
 	void loadFromFile();
 	void connectStations();
+	void ShowConnections() const;
 };

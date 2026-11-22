@@ -67,8 +67,13 @@ int main() {
         cout << "4-редактировать трубу\n5-редактировать КС\n";
         cout << "6-удалить трубу\n7-удалить КС\n";
         cout << "8-поиск труб\n9-поиск КС\n10-пакетное редактирование труб\n";
-        cout << "11-сохранить в файл\n12-загрузить из файла\n0-выход\nВыбор: ";
-        choice = GetCorrectNumber<int>(0, 12);
+        cout << "11-сохранить в файл\n";
+        cout << "12-загрузить из файла\n";
+        cout << "13-соединить КС\n";
+        cout << "14-Показать соединения\n";
+        cout << "0-выход\n";
+        cout << "Выбор: ";
+        choice = GetCorrectNumber<int>(0, 14);
 
         switch (choice) {
         case 1: 
@@ -106,6 +111,12 @@ int main() {
             break;
         case 12: 
             network.loadFromFile();
+            break;
+        case 13:
+            network.connectStations();
+            break;
+        case 14:
+            network.ShowConnections();
             break;
         case 0: 
             cout << "Выход\n";
