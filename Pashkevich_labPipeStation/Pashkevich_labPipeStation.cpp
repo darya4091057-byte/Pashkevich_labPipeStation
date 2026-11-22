@@ -79,19 +79,19 @@ int main() {
 
         switch (choice) {
         case 1: 
-            network.addPipe(pipes);
+            network.addPipe();
             break;
         case 2: 
-            network.addStation(stations);
+            network.addStation();
             break;
         case 3: 
-            network.showAll(pipes, stations);
+            network.showAll();
             break;
         case 4: 
-            editPipe(pipes);
+            network.editPipe();
             break;
         case 5: 
-            editStation(stations);
+            network.editStation();
             break;
         case 6: 
             deletePipe(pipes);
@@ -100,13 +100,13 @@ int main() {
             deleteStation(stations);
             break;
         case 8: 
-            searchPipes(pipes);
+            network.searchPipes();
             break;
         case 9: 
-            searchStations(stations);
+            network.searchStations();
             break;
         case 10: 
-            batchEditPipes(pipes);
+            network.batchEditPipes();
             break;
         case 11: 
             saveToFile(pipes, stations);
