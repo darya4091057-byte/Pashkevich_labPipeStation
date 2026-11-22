@@ -110,7 +110,9 @@ void GTS::loadFromFile() {
 	int count;
 	file >> count;
 	for (int i = 0; i < count; i++) {
-		Pipe p; file >> p; pipes[p.getId()] = p;
+		Pipe p;
+		file >> p;
+		pipes.emplace(p.getId(), p);
 	}
 	file >> count;
 	for (int i = 0; i < count; i++) {
@@ -122,4 +124,13 @@ void GTS::loadFromFile() {
 		stations.emplace(s.getId(), s);
 	}
 	cout << "Загружено\n";
+}
+
+int GTS::findFreePipe(int diameter) const {
+	for (const auto& [id, p] : pipes) {
+		if (p.getDiameter() == diameter && links.count(id) == 0) {
+			return id;
+		}
+	}
+	return 0;
 }

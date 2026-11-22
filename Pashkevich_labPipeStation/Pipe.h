@@ -18,6 +18,7 @@ public:
 
     int getId() const { return id; }
     std::string getName() const { return name; }
+    int getDiameter() const { return diameter; }
     bool isRepair() const { return repair; }
 
     void setRepair(bool r) { repair = r; }
