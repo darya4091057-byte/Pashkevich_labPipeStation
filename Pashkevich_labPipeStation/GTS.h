@@ -14,6 +14,9 @@ private:
 	std::unordered_map<int, Station> stations;
 	std::unordered_map<int, Link> links;
 	int findFreePipe(int diameter) const;
+	bool readConnectionStations(int& fromId, int& toId) const;
+	int readDiameter() const;
+	int createPipeForConnection(int diameter);
 
 public:
 	void addPipe();
@@ -28,4 +31,5 @@ public:
 	void deleteStation();
 	void saveToFile() const;
 	void loadFromFile();
+	void connectStations();
 };

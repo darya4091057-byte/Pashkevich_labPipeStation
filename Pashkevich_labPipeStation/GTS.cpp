@@ -134,3 +134,71 @@ int GTS::findFreePipe(int diameter) const {
 	}
 	return 0;
 }
+
+void GTS::connectStations() {
+	int fromId, toId;
+
+	if (!readConnectionStations(fromId, toId)) {
+		return;
+	}
+
+	int diameter = readDiameter();
+	int pipeId = findFreePipe(diameter);
+	if (pipeId == 0) {
+		pipeId = createPipeForConnection(diameter);
+	}
+
+	links.emplace(pipeId, Link{ fromId, toId });
+
+	cout << "КС" << fromId << " -> КС" << toId << ", труба ID" << pipeId << "\n";
+}
+
+bool GTS::readConnectionStations(int& fromId, int& toId) const {
+	if (stations.size() < 2) {
+		cout << "Нужны хотя бы две КС\n";
+		return false;
+	}
+
+	cout << "ID КС, из которой выходит газ: ";
+	fromId = GetCorrectNumber<int>(1, 10000);
+
+	cout << "ID КС, в которую приходит газ: ";
+	toId = GetCorrectNumber<int>(1, 10000);
+
+	if (stations.count(fromId) == 0 || stations.count(toId) == 0 || fromId == toId) {
+		cout << "КС должны существовать и различаться\n";
+		return false;
+	}
+
+	return true;
+}
+
+int GTS::readDiameter() const {
+	while (true) {
+		cout << "Диаметр: 500, 700, 1000 или 1400 мм: ";
+		int diameter = GetCorrectNumber<int>(500, 1400);
+
+		if (diameter == 500 || diameter == 700 || diameter == 1000 || diameter == 1400) {
+			return diameter;
+		}
+		cout << "Недопустимый диаметр\n";
+	}
+}
+
+int GTS::createPipeForConnection(int diameter) {
+	cout << "Создайте трубу диаметром " << diameter << " мм\n";
+
+	while (true) {
+		Pipe p;
+		cin >> p;
+
+		if (p.getDiameter() != diameter) {
+			cout << "Диаметр не совпадает. Повторите ввод\n";
+			continue;
+		}
+
+		int id = p.getId();
+		pipes.emplace(id, p);
+		return id;
+	}
+}
