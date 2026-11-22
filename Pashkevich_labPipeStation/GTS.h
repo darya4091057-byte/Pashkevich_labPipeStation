@@ -23,4 +23,6 @@ public:
 	void searchPipes() const;
 	void searchStations() const;
 	void batchEditPipes();
+	void deletePipe();
+	void deleteStation();
 };

@@ -1,4 +1,5 @@
 #include "GTS.h"
+#include "abstractions.h"
 
 void GTS::addPipe() {
 	::addPipe(pipes);
@@ -35,4 +36,49 @@ void GTS::searchStations() const {
 
 void GTS::batchEditPipes() {
 	::batchEditPipes(pipes);
+}
+
+void GTS::deletePipe() {
+	if (pipes.empty()) {
+		std::cout << "Нет труб\n";
+		return;
+	}
+
+	std::cout << "ID трубы для удаления: ";
+	int id = GetCorrectNumber<int>(1, 10000);
+
+	if (pipes.erase(id)) {
+		links.erase(id);
+		std::cout << "Удалено\n";
+	}
+	else {
+		std::cout << "Не найдено\n";
+	}
+}
+
+void GTS::deleteStation() {
+	if (stations.empty()) {
+		std::cout << "Нет КС\n";
+		return;
+	}
+	std::cout << "ID КС для удаления: ";
+	int id = GetCorrectNumber<int>(1, 10000);
+
+	if (stations.count(id) == 0) {
+		std::cout << "Не найдено\n";
+		return;
+	}
+
+	for (auto it = links.begin(); it != links.end(); ) {
+		if (it->second.fromStationId == id ||
+			it->second.toStationId == id) {
+			it = links.erase(it);
+		}
+		else {
+			++it;
+		}
+	}
+
+	stations.erase(id);
+	std::cout << "Удалено\n";
 }
