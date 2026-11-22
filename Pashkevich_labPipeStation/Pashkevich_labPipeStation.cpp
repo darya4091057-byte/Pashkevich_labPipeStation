@@ -7,6 +7,8 @@
 #include "Pipe.h"
 #include "Station.h"
 #include "abstractions.h"
+#include <filesystem>
+#include "GTS.h"
 using namespace std;
 
 void showAll(const unordered_map<int, Pipe>& pipes, const unordered_map<int, Station>& stations) {
@@ -54,13 +56,17 @@ int main() {
     SetConsoleCP(65001);
     SetConsoleOutputCP(65001);
 
-    redirect_output_wrapper cerr_wrapper(cerr);
-    ofstream logfile("log.txt");
-    if (logfile) 
-        cerr_wrapper.redirect(logfile);
+    filesystem::create_directories("log");
+    redirect_output_wrapper cerr_out(cerr);
+    string time = format("{:%d_%M_%Y %H_%M_%OS}", chrono::system_clock::now());
+    ofstream logfile("log/log_" + time + ".txt");
+    if (logfile)
+        cerr_out.redirect(logfile);
 
     unordered_map<int, Pipe> pipes;
     unordered_map<int, Station> stations;
+
+    GTS network;
     int choice = -1;
 
     while (choice != 0) {

@@ -12,16 +12,18 @@ Pipe::Pipe() {
     repair = false;
 }
 
-void Pipe::read() {
+istream& operator>>(istream& is, Pipe& p) {
     cout << "Название: ";
-    INPUT_LINE(cin, name);
+    INPUT_LINE(is, p.name);
     cout << "Диаметр (мм): ";
-    diameter = GetCorrectNumber<int>(1, 10000);
+    p.diameter = GetCorrectNumber<int>(1, 10000);
     cout << "Длина (км): ";
-    length = GetCorrectNumber<double>(0.1, 10000);
+    p.length = GetCorrectNumber<double>(0.1, 10000);
     cout << "В ремонте? (0-нет, 1-да): ";
-    repair = GetCorrectNumber<int>(0, 1);
-    cerr << "Создана труба с id" << id << "\n";
+    p.repair = GetCorrectNumber<int>(0, 1);
+    cerr << "Создана труба с id" << p.id << "\n";
+
+    return is;
 }
 
 void Pipe::print() const {
@@ -31,15 +33,15 @@ void Pipe::print() const {
         << " " << (repair ? "в ремонте" : "рабочая") << "\n";
 }
 
-ostream& operator<<(ostream& os, const Pipe& p) {
+ofstream& operator<<(ofstream& os, const Pipe& p) {
     os << p.id << "\n" << p.name << "\n" << p.diameter << "\n"
         << p.length << "\n" << p.repair << "\n";
     return os;
 }
 
-istream& operator>>(istream& is, Pipe& p) {
+ifstream& operator>>(ifstream& is, Pipe& p) {
     is >> p.id;
-    is.ignore();
+    is >> ws;
     getline(is, p.name);
     is >> p.diameter >> p.length >> p.repair;
     if (p.id >= Pipe::nextId) 
@@ -49,7 +51,7 @@ istream& operator>>(istream& is, Pipe& p) {
 
 void addPipe(unordered_map<int, Pipe>& pipes) {
     Pipe p;
-    p.read();
+    cin >> p;
     pipes.emplace(p.getId(), p);
 
 }

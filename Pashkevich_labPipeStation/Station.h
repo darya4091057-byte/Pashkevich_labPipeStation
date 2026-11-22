@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <iostream>
-#include <vector>
+#include <fstream>
 #include <unordered_map>
 
 class Station {
@@ -21,18 +21,23 @@ public:
     int getTotal() const { return total; }
     int getWorking() const { return working; }
 
-    void setWorking(int w) { working = w; }
+    void setWorking(int w) {
+        if (w >= 0 && w <= total) {
+            working = w;
+        }
+    }
 
     double getLoad() const {
         if (total == 0) return 0;
         return ((double)(total - working) / total) * 100.0;
     }
 
-    void read();
     void print() const;
 
     friend std::ostream& operator<<(std::ostream& os, const Station& s);
     friend std::istream& operator>>(std::istream& is, Station& s);
+    friend std::ofstream& operator<<(std::ofstream& os, const Station& s);
+    friend std::ifstream& operator>>(std::ifstream& is, Station& s);
 };
 
 void addStation(std::unordered_map<int, Station>& stations);

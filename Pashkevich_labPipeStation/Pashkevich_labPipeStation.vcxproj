@@ -140,12 +140,14 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GTS.cpp" />
     <ClCompile Include="Pashkevich_labPipeStation.cpp" />
     <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="Station.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="abstractions.h" />
+    <ClInclude Include="GTS.h" />
     <ClInclude Include="Pipe.h" />
     <ClInclude Include="Station.h" />
   </ItemGroup>

@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include <fstream>
 #include <unordered_map>
 
 class Pipe {
@@ -21,11 +22,12 @@ public:
 
     void setRepair(bool r) { repair = r; }
 
-    void read();
     void print() const;
 
     friend std::ostream& operator<<(std::ostream& os, const Pipe& p);
     friend std::istream& operator>>(std::istream& is, Pipe& p);
+    friend std::ofstream& operator<<(std::ofstream& os, const Pipe& p);
+    friend std::ifstream& operator>>(std::ifstream& is, Pipe& p);
 };
 
 void addPipe(std::unordered_map<int, Pipe>& pipes);

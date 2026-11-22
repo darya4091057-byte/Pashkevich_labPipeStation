@@ -12,16 +12,17 @@ Station::Station() {
     classNum = 0;
 }
 
-void Station::read() {
+istream& operator>>(istream& is, Station& s) {
     cout << "Название: ";
-    INPUT_LINE(cin, name);
+    INPUT_LINE(is, s.name);
     cout << "Всего цехов: ";
-    total = GetCorrectNumber<int>(1, 100);
+    s.total = GetCorrectNumber<int>(1, 100);
     cout << "Работают: ";
-    working = GetCorrectNumber<int>(0, total);
+    s.working = GetCorrectNumber<int>(0, s.total);
     cout << "Класс: ";
-    classNum = GetCorrectNumber<int>(1, 10);
-    cerr << "Создана КС с id" << id << "\n";
+    s.classNum = GetCorrectNumber<int>(1, 10);
+    cerr << "Создана КС с id" << s.id << "\n";
+    return is;
 }
 
 void Station::print() const {
@@ -32,16 +33,16 @@ void Station::print() const {
         << " незадействовано " << getLoad() << "%\n";
 }
 
-ostream& operator<<(ostream& os, const Station& s) {
+ofstream& operator<<(ofstream& os, const Station& s) 
+{
     os << s.id << "\n" << s.name << "\n" << s.total << "\n"
         << s.working << "\n" << s.classNum << "\n";
     return os;
 }
 
-istream& operator>>(istream& is, Station& s) {
+ifstream& operator>>(ifstream& is, Station& s) {
     is >> s.id;
-    is.ignore();
-    getline(is, s.name);
+    is >> ws;
     is >> s.total >> s.working >> s.classNum;
     if (s.id >= Station::nextId) Station::nextId = s.id + 1;
     return is;
@@ -49,7 +50,7 @@ istream& operator>>(istream& is, Station& s) {
 
 void addStation(unordered_map<int, Station>& stations) {
     Station s;
-    s.read();
+    cin >> s;
     stations.emplace(s.getId(), s);
 }
 
@@ -60,11 +61,13 @@ void editStation(unordered_map<int, Station>& stations) {
     if (stations.count(id)) {
         cout << "1-запустить, 2-остановить: ";
         int c = GetCorrectNumber<int>(1, 2);
-        int work = stations[id].getWorking();
-        int total = stations[id].getTotal();
-        if (c == 1 && work < total) stations[id].setWorking(work + 1);
-        if (c == 2 && work > 0) stations[id].setWorking(work - 1);
-        cout << "Готово\n";
+        if (c == 1) {
+            stations[id].setWorking(stations[id].getWorking() + 1);
+        }
+        if (c == 2) {
+            stations[id].setWorking(stations[id].getWorking() - 1);
+        }
+        cout << "Готово. В работе: " << stations[id].getWorking() << "\n";
     }
     else cout << "Не найдено\n";
 }
@@ -73,7 +76,8 @@ void deleteStation(unordered_map<int, Station>& stations) {
     if (stations.empty()) { cout << "Нет КС\n"; return; }
     cout << "ID для удаления: ";
     int id = GetCorrectNumber<int>(1, 10000);
-    if (stations.erase(id)) cout << "Удалено\n";
+    if (stations.erase(id)) 
+        cout << "Удалено\n";
     else cout << "Не найдено\n";
 }
 
@@ -94,7 +98,8 @@ void searchStations(const unordered_map<int, Station>& stations) {
         INPUT_LINE(cin, name);
 
         auto result = FindByFilter(stations, filterCSName, name);
-        for (int id : result) stations.at(id).print();
+        for (int id : result) 
+            stations.at(id).print();
     }
     else {
         cout << "Загрузка меньше (%): ";
