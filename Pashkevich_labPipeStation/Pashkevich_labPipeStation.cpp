@@ -79,31 +79,43 @@ int main() {
 
         switch (choice) {
         case 1: 
-            addPipe(pipes);
+            network.addPipe(pipes);
             break;
-        case 2: addStation(stations);
+        case 2: 
+            network.addStation(stations);
             break;
-        case 3: showAll(pipes, stations);
+        case 3: 
+            network.showAll(pipes, stations);
             break;
-        case 4: editPipe(pipes);
+        case 4: 
+            editPipe(pipes);
             break;
-        case 5: editStation(stations);
+        case 5: 
+            editStation(stations);
             break;
-        case 6: deletePipe(pipes);
+        case 6: 
+            deletePipe(pipes);
             break;
-        case 7: deleteStation(stations);
+        case 7: 
+            deleteStation(stations);
             break;
-        case 8: searchPipes(pipes);
+        case 8: 
+            searchPipes(pipes);
             break;
-        case 9: searchStations(stations);
+        case 9: 
+            searchStations(stations);
             break;
-        case 10: batchEditPipes(pipes);
+        case 10: 
+            batchEditPipes(pipes);
             break;
-        case 11: saveToFile(pipes, stations);
+        case 11: 
+            saveToFile(pipes, stations);
             break;
-        case 12: loadFromFile(pipes, stations);
+        case 12: 
+            loadFromFile(pipes, stations);
             break;
-        case 0: cout << "Выход\n";
+        case 0: 
+            cout << "Выход\n";
             break;
         }
     }
