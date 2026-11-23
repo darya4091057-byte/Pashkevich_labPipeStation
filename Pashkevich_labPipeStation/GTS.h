@@ -21,8 +21,13 @@ private:
 	int createPipeForConnection(int diameter);
 	void saveConnections(std::ofstream& file) const;
 	bool loadConnections(std::ifstream& file);
-	std::vector<int> getstationIds() const;
+	std::vector<int> getStationIds() const;
 	std::vector<std::vector<int>> buildAdjacencyMatrix(
+		const std::vector<int>& ids) const;
+	std::vector<int> countIncoming(
+		const std::vector<std::vector<int>>& matrix) const;
+	int findReadyStation(const std::vector<int>& incoming) const;
+	std::vector<int> getTopologicalOrder(
 		const std::vector<int>& ids) const;
 
 public:
@@ -42,4 +47,5 @@ public:
 	void ShowConnections() const;
 	void disconnectPipe();
 	void showAdjacencyMatrix() const;
+	void showTopologicalOrder() const;
 };

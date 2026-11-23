@@ -70,12 +70,13 @@ int main() {
         cout << "11-сохранить в файл\n";
         cout << "12-загрузить из файла\n";
         cout << "13-соединить КС\n";
-        cout << "14-Показать соединения\n";
+        cout << "14-показать соединения\n";
         cout << "15-отключить трубу\n";
-        cout << "16-Показать матрицу смежности\n";
+        cout << "16-показать матрицу смежности\n";
+        cout << "17-топологическая сортировка\n";
         cout << "0-выход\n";
         cout << "Выбор: ";
-        choice = GetCorrectNumber<int>(0, 16);
+        choice = GetCorrectNumber<int>(0, 17);
 
         switch (choice) {
         case 1: 
@@ -125,6 +126,9 @@ int main() {
             break;
         case 16:
             network.showAdjacencyMatrix();
+            break;
+        case 17:
+            network.showTopologicalOrder();
             break;
         case 0: 
             cout << "Выход\n";

@@ -258,7 +258,6 @@ bool GTS::loadConnections(ifstream& file) {
 	if (!(file >> count) || count < 0) {
 		return false;
 	}
-
 	unordered_map<int, Link> loadedLinks;
 
 	for (int i = 0; i < count; i++) {
@@ -276,18 +275,16 @@ bool GTS::loadConnections(ifstream& file) {
 
 		loadedLinks.emplace(pipeId, link);
 	}
-
 	links = loadedLinks;
 	return true;
 }
 
-vector<int> GTS::getstationIds() const {
+vector<int> GTS::getStationIds() const {
 	vector<int> ids;
 
 	for (const auto& [id, station] : stations) {
 		ids.push_back(id);
 	}
-
 	sort(ids.begin(), ids.end());
 	return ids;
 }
@@ -335,7 +332,81 @@ void GTS::showAdjacencyMatrix() const {
 		for (int value : matrix[i]) {
 			cout << setw(7) << value;
 		}
-
 		cout << "\n";
 	}
+}
+
+vector<int> GTS::countIncoming(
+	const vector<vector<int>>& matrix) const {
+
+	int n = static_cast<int>(matrix.size());
+	vector<int> incoming(n, 0);
+
+	for (int from = 0; from < n; from++) {
+		for (int to = 0; to < n; to++) {
+			incoming[to] += matrix[from][to];
+		}
+	}
+	return incoming;
+}
+
+int GTS::findReadyStation(const vector<int>& incoming) const {
+	int n = static_cast<int>(incoming.size());
+
+	for (int i = 0; i < n; i++) {
+		if (incoming[i] == 0) {
+			return 1;
+		}
+	}
+	return -1;
+}
+
+vector<int> GTS::getTopologicalOrder(
+	const vector<int>& ids) const {
+
+	auto matrix = buildAdjacencyMatrix(ids);
+	vector<int> incoming = countIncoming(matrix);
+	vector<int> order;
+
+	int n = static_cast<int>(ids.size());
+
+	for (int step = 0; step < n; step++) {
+		int current = findReadyStation(incoming);
+		if (current == -1) {
+			return {};
+		}
+
+		order.push_back(ids[current]);
+		incoming[current] = -1;
+
+		for (int to = 0; to < n; to++) {
+			if (matrix[current][to] == 1) {
+				incoming[to]--;
+			}
+		}
+	}
+	return order;
+}
+
+void GTS::showTopologicalOrder() const {
+	vector<int> ids = getStationIds();
+
+	if (ids.empty()) {
+		cout << "Нет КС\n";
+		return;
+	}
+
+	vector<int> order = getTopologicalOrder(ids);
+
+	if (order.empty()) {
+		cout << "В графе есть цикл. Сортировка невозможна\n";
+		return;
+	}
+
+	cout << "Топологический порядок ID КС: ";
+
+	for (int id : order) {
+		cout << id << " ";
+	}
+	cout << "\n";
 }
