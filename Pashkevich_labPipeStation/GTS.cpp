@@ -1,6 +1,7 @@
 #include "GTS.h"
 #include "abstractions.h"
 #include <fstream>
+#include <algorithm>
 using namespace std;
 
 void GTS::addPipe() {
@@ -96,6 +97,9 @@ void GTS::saveToFile() const {
 	for (const auto& [id, p] : pipes) file << p;
 	file << stations.size() << "\n";
 	for (const auto& [id, s] : stations) file << s;
+
+	saveConnections(file);
+
 	cout << "Сохранено\n";
 }
 
@@ -122,6 +126,11 @@ void GTS::loadFromFile() {
 			return;
 		}
 		stations.emplace(s.getId(), s);
+	}
+
+	if (!loadConnections(file)) {
+		cout << "Ошибка чтения соединений\n";
+		return;
 	}
 	cout << "Загружено\n";
 }
@@ -229,4 +238,44 @@ void GTS::disconnectPipe() {
 	else {
 		cout << "Труба уже свободна\n";
 	}
+}
+
+void GTS::saveConnections(ofstream& file) const {
+	file << links.size() << "\n";
+
+	for (const auto& [pipeId, link] : links) {
+		file << pipeId << " " << link.fromStationId << " " << link.toStationId << "\n";
+	}
+}
+
+bool GTS::loadConnections(ifstream& file) {
+	file >> ws;
+	if (file.eof()) {
+		return true;
+	}
+	int count;
+	if (!(file >> count) || count < 0) {
+		return false;
+	}
+
+	unordered_map<int, Link> loadedLinks;
+
+	for (int i = 0; i < count; i++) {
+		int pipeId;
+		Link link;
+
+		if (!(file >> pipeId >> link.fromStationId >> link.toStationId)) {
+			return false;
+		}
+
+		if (pipes.count(pipeId) == 0 || stations.count(link.fromStationId) == 0 || stations.count(link.toStationId) == 0 ||
+			link.fromStationId == link.toStationId || loadedLinks.count(pipeId) != 0) {
+			return false;
+		}
+
+		loadedLinks.emplace(pipeId, link);
+	}
+
+	links = loadedLinks;
+	return true;
 }

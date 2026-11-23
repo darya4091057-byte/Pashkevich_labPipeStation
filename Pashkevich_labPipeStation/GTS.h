@@ -2,6 +2,8 @@
 #include <unordered_map>
 #include "Pipe.h"
 #include "Station.h"
+#include <fstream>
+#include <vector>
 
 struct Link {
 	int fromStationId;
@@ -17,6 +19,9 @@ private:
 	bool readConnectionStations(int& fromId, int& toId) const;
 	int readDiameter() const;
 	int createPipeForConnection(int diameter);
+	void saveConnections(std::ofstream& file) const;
+	bool loadConnections(std::ifstream& file);
+	std::vector<int> getstationIds() const;
 
 public:
 	void addPipe();
