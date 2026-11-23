@@ -22,6 +22,8 @@ private:
 	void saveConnections(std::ofstream& file) const;
 	bool loadConnections(std::ifstream& file);
 	std::vector<int> getstationIds() const;
+	std::vector<std::vector<int>> buildAdjacencyMatrix(
+		const std::vector<int>& ids) const;
 
 public:
 	void addPipe();
@@ -39,4 +41,5 @@ public:
 	void connectStations();
 	void ShowConnections() const;
 	void disconnectPipe();
+	void showAdjacencyMatrix() const;
 };

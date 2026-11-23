@@ -2,6 +2,7 @@
 #include "abstractions.h"
 #include <fstream>
 #include <algorithm>
+#include <iomanip>
 using namespace std;
 
 void GTS::addPipe() {
@@ -278,4 +279,63 @@ bool GTS::loadConnections(ifstream& file) {
 
 	links = loadedLinks;
 	return true;
+}
+
+vector<int> GTS::getstationIds() const {
+	vector<int> ids;
+
+	for (const auto& [id, station] : stations) {
+		ids.push_back(id);
+	}
+
+	sort(ids.begin(), ids.end());
+	return ids;
+}
+
+vector<vector<int>> GTS::buildAdjacencyMatrix(
+	const vector<int>& ids) const {
+	int n = static_cast<int>(ids.size());
+	vector<vector<int>> matrix(n, vector<int>(n, 0));
+
+	unordered_map<int, int> index;
+	for (int i = 0; i < n; i++) {
+		index.emplace(ids[i], i);
+	}
+
+	for (const auto& [pipeId, link] : links) {
+		int from = index.at(link.fromStationId);
+		int to = index.at(link.toStationId);
+
+		matrix[from][to] = 1;
+	}
+	return matrix;
+}
+
+void GTS::showAdjacencyMatrix() const {
+	vector<int> ids = getStationIds();
+
+	if (ids.empty()) {
+		cout << "Нет КС\n";
+		return;
+	}
+
+	auto matrix = buildAdjacencyMatrix(ids);
+
+	cout << "Строка - откуда, столбец - куда. Подписи - ID КС.\n";
+
+	cout << setw(7) << " ";
+	for (int id : ids) {
+		cout << setw(7) << id;
+	}
+	cout << "\n";
+
+	for (size_t i = 0; i < ids.size(); i++) {
+		cout << setw(7) << ids[i];
+
+		for (int value : matrix[i]) {
+			cout << setw(7) << value;
+		}
+
+		cout << "\n";
+	}
 }
